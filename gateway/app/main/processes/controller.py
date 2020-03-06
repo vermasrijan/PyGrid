@@ -201,10 +201,7 @@ class FLController:
             }
         else:
             remaining = _cycle.end - datetime.now()
-            return {
-                CYCLE.STATUS: "rejected",
-                CYCLE.TIMEOUT: str(remaining),
-            }
+            return {CYCLE.STATUS: "rejected", CYCLE.TIMEOUT: str(remaining)}
 
     def _generate_hash_key(self, primary_key: str) -> str:
         """ Generate SHA256 Hash to give access to the cycle.
@@ -240,6 +237,7 @@ class FLController:
         fl_process = self._processes.register()
 
         _model = self._models.query(id=model.id)
+        print('model has been seeded', _model)
         if not _model:
             self._models.register(id=model.id, flprocess=fl_process)
 
@@ -250,18 +248,17 @@ class FLController:
             self._plans.register(name=key, value=value, plan_flprocess=fl_process)
 
         # Register new Protocols into the database
-        for key, value in client_protocols.items():
-            self._protocols.register(
-                name=key, value=value, protocol_flprocess=fl_process,
-            )
+        if client_protocols:
+            for key, value in client_protocols.items():
+                self._protocols.register(
+                    name=key, value=value, protocol_flprocess=fl_process
+                )
 
         # Register the average plan into the database
         self._plans.register(value=value, avg_flprocess=fl_process, is_avg_plan=True)
 
         # Register the client/server setup configs
-        self._configs.register(
-            config=client_config, server_flprocess_config=fl_process,
-        )
+        self._configs.register(config=client_config, server_flprocess_config=fl_process)
 
         self._configs.register(
             config=server_config,
@@ -273,14 +270,14 @@ class FLController:
         _now = datetime.now()
         _end = _now + timedelta(seconds=server_config["cycle_length"])
         self._cycles.register(
-            start=_now, end=_end, sequence=0, version=None, cycle_flprocess=fl_process,
+            start=_now, end=_end, sequence=0, version=None, cycle_flprocess=fl_process
         )
         return fl_process
 
     def delete_process(self, **kwargs):
         """ Remove a registered federated learning process.
             Args:
-                pid : Id used identify the desired process. 
+                pid : Id used identify the desired process.
         """
         self._processes.delete(**kwargs)
 
