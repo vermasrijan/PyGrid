@@ -12,6 +12,9 @@ from ..codes import *
 
 import json
 
+# Seed the database
+seed_database()
+
 # Websocket events routes
 # This structure allows compatibility between javascript applications (syft.js/grid.js) and PyGrid.
 routes = {
