@@ -26,7 +26,6 @@ class TestDatabase(unittest.TestCase):
         app.app_context().push()
         self.db.create_all()
 
-    @pytest.mark.skip
     def testCreatePlan(self):
         my_plan = models.Plan(
             id=randint(0, BIG_INT),
@@ -36,7 +35,6 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(my_plan)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateProtocol(self):
         my_protocol = models.Protocol(
             id=randint(0, BIG_INT),
@@ -46,7 +44,6 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(my_protocol)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateConfig(self):
         client_config = {
             "name": "my-federated-model",
@@ -74,7 +71,6 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(my_client_config)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateWorker(self):
         worker = models.Worker(
             id=randint(0, BIG_INT),
@@ -87,7 +83,6 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(worker)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateCycle(self):
         new_cycle = models.Cycle(
             id=randint(0, BIG_INT),
@@ -99,14 +94,12 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(new_cycle)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateModel(self):
         new_model = models.Model(version="0.0.1")
 
         self.db.session.add(new_model)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testCreateFLProcess(self):
         new_fl_process = models.FLProcess(id=randint(0, BIG_INT))
 
@@ -214,7 +207,6 @@ class TestDatabase(unittest.TestCase):
         self.db.session.add(cycle_2)
         self.db.session.commit()
 
-    @pytest.mark.skip
     def testWorkerCycle(self):
         new_fl_process = models.FLProcess(id=randint(0, BIG_INT))
 
